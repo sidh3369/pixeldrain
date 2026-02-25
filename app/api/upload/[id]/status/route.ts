@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type RouteContext } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { toJSONSafe } from "@/lib/serialize";
 
 export async function GET(
   request: Request,
-  context: { params: { id: string } }
+  context: RouteContext<{ id: string }>
 ) {
   const { id } = context.params;
 
