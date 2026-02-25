@@ -21,3 +21,15 @@ npm run dev
 - `/stremio/manifest.json`
 - `/stremio/catalog/movie/study_videos.json`
 - `/stremio/stream/movie/:id.json`
+
+## Render deployment
+
+This repo includes a `render.yaml` Blueprint config that uses npm for both install and build to avoid mixed package-manager installs (`npm` + `yarn`).
+
+```bash
+# build
+npm install && npm run build
+
+# start
+npm run start
+```
