@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Folder {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  files       File[]
+}
+
+model File {
+  id           String   @id @default(cuid())
+  name         String
+  size         BigInt   @default(0)
+  mimeType     String   @default("video/mp4")
+  pixeldrainId String
+  folderId     String?
+  folder       Folder?  @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  magnetSource String?
+  uploadStatus String   @default("pending")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model UploadJob {
+  id         String          @id @default(cuid())
+  magnetLink String
+  folderId   String?
+  folderName String?
+  status     String          @default("pending")
+  progress   Int             @default(0)
+  error      String?
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  files      UploadJobFile[]
+}
+
+model UploadJobFile {
+  id           String    @id @default(cuid())
+  uploadJobId  String
+  uploadJob    UploadJob @relation(fields: [uploadJobId], references: [id], onDelete: Cascade)
+  fileName     String
+  fileSize     BigInt    @default(0)
+  status       String    @default("pending")
+  pixeldrainId String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
