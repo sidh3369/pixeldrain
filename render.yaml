@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: pixeldrain-study-material-stream
+    env: node
+    plan: free
+    autoDeploy: true
+
+    buildCommand: npm install && npx prisma generate && npm run build
+    startCommand: npm run start
+
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: PIXELDRAIN_API_KEY
+        sync: false
