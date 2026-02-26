@@ -15,7 +15,7 @@ export async function uploadFile(buffer: Buffer, filename: string): Promise<{ id
       Authorization: getAuthHeader(),
       "Content-Type": "application/octet-stream"
     },
-    body: buffer
+    body: new Uint8Array(buffer)
   });
 
   if (!response.ok) {

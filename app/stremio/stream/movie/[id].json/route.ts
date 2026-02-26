@@ -1,4 +1,4 @@
-import { NextResponse, type RouteContext } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getDirectUrl } from "@/lib/pixeldrain";
 
@@ -15,9 +15,9 @@ function toStream(name: string, pixeldrainId: string) {
 
 export async function GET(
   request: Request,
-  context: RouteContext<{ id: string }>
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = context.params;
+  const { id } = await context.params;
 
   if (id.startsWith("studymaterial_folder_")) {
     const folderId = id.replace("studymaterial_folder_", "");

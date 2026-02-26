@@ -1,12 +1,12 @@
-import { NextResponse, type RouteContext } from "next/server";
+import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { toJSONSafe } from "@/lib/serialize";
 
 export async function GET(
   request: Request,
-  context: RouteContext<{ id: string }>
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = context.params;
+  const { id } = await context.params;
 
   const job = await prisma.uploadJob.findUnique({
     where: { id },
